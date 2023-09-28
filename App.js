@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Let's merge this change!</Text>
+      <Text>MImi and DOnarbert</Text>
       <StatusBar style="auto" />
     </View>
   );
