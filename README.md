@@ -12,8 +12,8 @@ To Do:
 9) Character Creation (Intuitive Character Creation. Use database to determine what spells and skills that character can learn?)
 
 Features to implement if we have time:
-10) Sign in/Account creation
-11) Let Users connect with each other for sessions and groups
-12) Session views: Let DM give out exp. points to players characters in a session, implement mapping?, implement scenario creation where DM can add creatures/enemies to scenarios and can keep track of creature's experience, armor rating, weapons, health, etc. all in one place.
+1) Sign in/Account creation
+2) Let Users connect with each other for sessions and groups
+3) Session views: Let DM give out exp. points to players characters in a session, implement mapping?, implement scenario creation where DM can add creatures/enemies to scenarios and can keep track of creature's experience, armor rating, weapons, health, etc. all in one place.
 
 DONE:
