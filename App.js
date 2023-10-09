@@ -1,10 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import NavigationBar from './src/components/NavigationBar';
 
-export default function App() {
+const App = () => {
   return (
     <View style={styles.container}>
-      <Text>Successfully Added to GitHub!!!</Text>
+      <View style={styles.NavBar}>
+        <NavigationBar />
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -14,7 +17,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#DBCBE8',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
+  NavBar: {
+    marginTop: 'auto'
+  }
 });
+
+export default App;
