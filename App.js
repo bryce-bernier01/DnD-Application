@@ -4,7 +4,7 @@ import NavigationBar from './src/components/NavigationBar';
 
 const App = () => {
   return (
-    <View style={styles.container}>r
+    <View style={styles.container}>
       <View style={styles.NavBar}>
         <NavigationBar />
       </View>
