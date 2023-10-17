@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
     tab:{
         flex: 1,
         alignItems: 'center',
-        paddingVertical: 10
+        paddingTop: 5,
+        paddingBottom: 5,
     },
     tabText:{
         fontSize: 16,
