@@ -4,19 +4,34 @@ import NavigationBar from './src/components/NavigationBar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import CharacterSheet from './src/screens/CharacterSheet'; // Import your screen components
+import CreatureCatalog from './src/screens/CreatureCatalog';
+import SpellsCatalog from './src/screens/SpellsCatalog';
+import WeaponCatalog from './src/screens/WeaponCatalog';
 
 const Stack = createStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Character Sheet" component={CharacterSheet} />
-      </Stack.Navigator>
+        <Stack.Navigator 
+          screenOptions={{
+            cardStyleInterpolator: ({ current, next, layouts }) => ({
+              cardStyle: {
+                opacity: current.progress, // Customize the transition animation
+              },
+            }),
+            cardStyle: {flex: 1},
+          }}
+        >
+          <Stack.Screen name="CharacterSheet" component={CharacterSheet} />
+          <Stack.Screen name="CreatureCatalog" component={CreatureCatalog} />
+          <Stack.Screen name="SpellsCatalog" component={SpellsCatalog} />
+          <Stack.Screen name="WeaponCatalog" component={WeaponCatalog} />
+        </Stack.Navigator>
       <View style={styles.container}>
-      <View style={styles.NavBar}>
-        <NavigationBar />
-      </View>
+        <View style={styles.NavBar}>
+          <NavigationBar />
+        </View>
       <StatusBar style="auto" />
       </View>
     </NavigationContainer>
@@ -25,18 +40,11 @@ function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#DBCBE8',
   },
   NavBar: {
     marginTop: 'auto',
     zIndex: 99,
-    backgroundColor: 'black',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-    elevation: 100,
   }
 });
 
