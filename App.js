@@ -1,22 +1,51 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import NavigationBar from './src/components/NavigationBar';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import CharacterSheet from './src/screens/CharacterSheet'; // Import your screen components
+import CreatureCatalog from './src/screens/CreatureCatalog';
+import SpellsCatalog from './src/screens/SpellsCatalog';
+import WeaponCatalog from './src/screens/WeaponCatalog';
 
-export default function App() {
+const Stack = createStackNavigator();
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>MImi and DOnarbert</Text>
+    <NavigationContainer>
+        <Stack.Navigator 
+          screenOptions={{
+            cardStyleInterpolator: ({ current, next, layouts }) => ({
+              cardStyle: {
+                opacity: current.progress, // Customize the transition animation
+              },
+            }),
+            cardStyle: {flex: 1},
+          }}
+        >
+          <Stack.Screen name="CharacterSheet" component={CharacterSheet} />
+          <Stack.Screen name="CreatureCatalog" component={CreatureCatalog} />
+          <Stack.Screen name="SpellsCatalog" component={SpellsCatalog} />
+          <Stack.Screen name="WeaponCatalog" component={WeaponCatalog} />
+        </Stack.Navigator>
+      <View style={styles.container}>
+        <View style={styles.NavBar}>
+          <NavigationBar />
+        </View>
       <StatusBar style="auto" />
-    </View>
+      </View>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#DBCBE8',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
+  NavBar: {
+    marginTop: 'auto',
+    zIndex: 99,
+  }
 });
 
-
+export default App;
