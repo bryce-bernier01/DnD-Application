@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import NavigationBar from './src/components/NavigationBar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import CharacterSheet from './src/screens/CharacterSheet'; // Import your screen components
+import CharacterCatalog from './src/screens/CharacterCatalog';
 import CreatureCatalog from './src/screens/CreatureCatalog';
 import SpellsCatalog from './src/screens/SpellsCatalog';
 import WeaponCatalog from './src/screens/WeaponCatalog';
@@ -23,7 +23,7 @@ function App() {
             cardStyle: {flex: 1},
           }}
         >
-          <Stack.Screen name="CharacterSheet" component={CharacterSheet} />
+          <Stack.Screen name="CharacterCatalog" component={CharacterCatalog} />
           <Stack.Screen name="CreatureCatalog" component={CreatureCatalog} />
           <Stack.Screen name="SpellsCatalog" component={SpellsCatalog} />
           <Stack.Screen name="WeaponCatalog" component={WeaponCatalog} />

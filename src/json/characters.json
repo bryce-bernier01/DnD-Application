@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Harold",
+    "stats": {
+      "strength": 12,
+      "dexterity": 14,
+      "constitution": 10,
+      "intelligence": 16,
+      "wisdom": 10,
+      "charisma": 14
+    },
+    "race": "Elf",
+    "class": "Bard",
+    "level": 5,
+    "icon": "bardIcon"
+  },
+  {
+    "name": "Michael",
+    "stats": {
+      "strength": 10,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 8,
+      "wisdom": 14,
+      "charisma": 16
+    },
+    "race": "Dwarf",
+    "class": "Cleric",
+    "level": 3,
+    "icon": "clericIcon"
+  }
+]

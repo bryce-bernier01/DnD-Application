@@ -1,0 +1,53 @@
+[
+  {
+    "buttonName": "Bard Spells",
+    "bardSpells": [
+      {
+        "name": "Vicious Mockery",
+        "level": 0
+      },
+      {
+        "name": "Cure Wounds",
+        "level": 1
+      },
+      {
+        "name": "Dissonant Whispers",
+        "level": 1
+      },
+      {
+        "name": "Heat Metal",
+        "level": 2
+      },
+      {
+        "name": "Counterspell",
+        "level": 3
+      }
+    ]
+  },
+  {
+    "buttonName": "Cleric Spells",
+    "clericSpells": [
+      {
+        "name": "Bless",
+        "level": 1
+      },
+      {
+        "name": "Heal",
+        "level": 2
+      }
+    ]
+  },
+  {
+    "buttonName": "Wizard Spells",
+    "wizardSpells": [
+      {
+        "name": "Fireball",
+        "level": 3
+      },
+      {
+        "name": "Magic Missile",
+        "level": 1
+      }
+    ]
+  }
+]

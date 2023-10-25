@@ -1,0 +1,14 @@
+[
+  {
+    "buttonName": "Beasts",
+    "beasts": ["Lion", "Wolf", "Eagle"]
+  },
+  {
+    "buttonName": "Undead",
+    "undead": ["Zombie", "Skeleton", "Ghoul"]
+  },
+  {
+    "buttonName": "Dragons",
+    "dragons": ["Red Dragon", "Green Dragon", "Gold Dragon"]
+  }
+]

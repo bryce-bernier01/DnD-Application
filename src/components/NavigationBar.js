@@ -10,7 +10,7 @@ const NavigationBar = () => {
     }
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.tab} onPress={() => navigateToScreen('CharacterSheet')}>
+            <TouchableOpacity style={styles.tab} onPress={() => navigateToScreen('CharacterCatalog')}>
                 <Image 
                     style={[styles.icons, styles.scroll]}
                     source={require('../navbarIcons/Scroll.png')}

@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+import ScreenButton from '../components/ScreenButton';
+import weapons from '../json/weapons.json'
 
 const WeaponCatalog = () => {
     const navigation = useNavigation();
@@ -10,11 +12,20 @@ const WeaponCatalog = () => {
             headerShown: false, // Hide the header for this screen
             });
     }, [navigation]);
+    const renderButton = [];
+
+    for(let i = 0; i < weapons.length; i++){
+        renderButton.push(
+            <ScreenButton 
+                key={i}
+                index={3}
+                buttonName={weapons[i].buttonName}
+            />
+        );
+    }
     return (
         <View style={styles.container}>
-            <Text>
-                This will be the Weapon Catalog!
-            </Text>
+            {renderButton}
         </View>
     );
 };
