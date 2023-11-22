@@ -7,10 +7,13 @@ import CharacterCatalog from './src/screens/CharacterCatalog';
 import CreatureCatalog from './src/screens/CreatureCatalog';
 import SpellsCatalog from './src/screens/SpellsCatalog';
 import WeaponCatalog from './src/screens/WeaponCatalog';
+import initDatabase from './src/components/database';
 
 const Stack = createStackNavigator();
 
 function App() {
+  initDatabase();
+  
   return (
     <NavigationContainer>
         <Stack.Navigator 
