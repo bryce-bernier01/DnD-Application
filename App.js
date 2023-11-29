@@ -8,6 +8,7 @@ import CreatureCatalog from './src/screens/CreatureCatalog';
 import SpellsCatalog from './src/screens/SpellsCatalog';
 import WeaponCatalog from './src/screens/WeaponCatalog';
 import initDatabase from './src/components/database';
+import CharacterCreation from './src/screens/CharacterCreation';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,7 @@ function App() {
           <Stack.Screen name="CreatureCatalog" component={CreatureCatalog} />
           <Stack.Screen name="SpellsCatalog" component={SpellsCatalog} />
           <Stack.Screen name="WeaponCatalog" component={WeaponCatalog} />
+          <Stack.Screen name="CharacterCreation" component={CharacterCreation} />
         </Stack.Navigator>
       <View style={styles.container}>
         <View style={styles.NavBar}>

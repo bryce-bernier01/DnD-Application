@@ -71,15 +71,15 @@ export default function initDatabase() {
     if(isLoading){
         console.log("loading names...");
     };
-    const shareDatabase = async () => {
-        await Sharing.shareAsync(
-            FileSystem.documentDirectory + 'SQLite/dndDatabase.db', 
-                {dialogTitle: 'share or copy your DB via'}
-            ).catch(error =>{
-                console.log(error);
-            })
-    }
-    shareDatabase();
+    // const shareDatabase = async () => {
+    //     await Sharing.shareAsync(
+    //         FileSystem.documentDirectory + 'SQLite/dndDatabase.db', 
+    //             {dialogTitle: 'share or copy your DB via'}
+    //         ).catch(error =>{
+    //             console.log(error);
+    //         })
+    // }
+    // shareDatabase();
     // const deleteDatabase = async () => {
     //     await db.closeAsync(); // Close the database before deleting
     //     await db.deleteAsync();
