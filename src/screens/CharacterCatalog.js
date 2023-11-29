@@ -2,11 +2,31 @@ import React, {useState, useEffect} from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import CharacterSheet from '../components/CharacterSheet'
-import { ScrollView } from 'react-native-gesture-handler';
-import characters from '../json/characters.json'
 import CharacterCreation from './CharacterCreation';
+import * as SQLite from 'expo-sqlite';
 
 const CharacterCatalog = () => {
+    const [characterCount, setCharacterCount] = useState(0);
+    useEffect(()=> {
+        const db = SQLite.openDatabase('dndDatabase.db');
+        db.transaction(tx => {
+            tx.executeSql('SELECT COUNT(name) as count FROM PlayerCharacters;', [], (_, result) =>{
+                const rowCount = result.rows.item(0).count;
+                console.log("row count from character catalog: " + rowCount);
+                setCharacterCount(rowCount);
+                // if(rowCount < sqlRacesStatements.length){
+                //     sqlRacesStatements.forEach(async (sqlStatement) => {
+                //         try {
+                //             await tx.executeSql(sqlStatement);
+                //             console.log("Executed Races Statement");
+                //         } catch (error) {
+                //             console.error('Error executing SQL statement:', error);
+                //         }
+                //     });
+                // }
+            })
+        });
+    }, []);
     const navigation = useNavigation();
 
     React.useLayoutEffect(() => {
@@ -17,7 +37,7 @@ const CharacterCatalog = () => {
 
     const renderSheets = [];
 
-    for(let i = 0; i < characters.length; i++){
+    for(let i = 0; i < characterCount; i++){
         renderSheets.push(
             <CharacterSheet 
                 key={i}

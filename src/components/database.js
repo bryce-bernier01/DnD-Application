@@ -37,14 +37,39 @@ export default function initDatabase() {
         'INSERT INTO "classes" ("name", "primaryAbility", "primaryAbility2", "savingThrows", "hitDice") VALUES ("Sorcerer", "Charisma", "", "Constitution & Charisma", "d6")',
         'INSERT INTO "classes" ("name", "primaryAbility", "primaryAbility2", "savingThrows", "hitDice") VALUES ("Warlock", "Charisma", "", "Wisdom & Charisma", "d8")'
     ]
-
+    const sqlSpellStatements = [
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Unseen Servant", "1", "Bard", "60 feet")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Bane", "1", "Cleric", "30 Feet")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Command", "1", "Cleric", "60 Feet")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Cure Wounds", "1", "Cleric", "Touch")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Detect Evil and Good ", "1", "Cleric", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Compelled Duel", "1", "paladins", "30 Feet")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Comprehend Languages", "1", "Sorcerer", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Comprehend Languages", "1", "Warlock", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Comprehend Languages", "1", "Wizard", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Create or Destroy Water", "1", "Cleric", "30 feet")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Create or Destroy Water", "1", "Druid", "30 feet")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Silent Image", "1", "Sorcerer", "60 feet")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Silent Image", "1", "Wizard", "60 feet")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Detect Evil and Good ", "1", "Paladin", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Detect Magic", "1", "Artificer", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Detect Magic", "1", "Cleric", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Detect Magic", "1", "Druid", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Detect Magic", "1", "Paladin", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Detect Magic", "1", "Ranger", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Detect Magic", "1", "Sorcerer", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Detect Magic", "1", "Wizard", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Disguise Self", "1", "Artificer", "Self")',
+        'INSERT INTO "spells" ("SpellName", "Level", "Class", "Range") VALUES ("Disguise Self", "1", "Sorcerer", "Self")'
+    ]
 
     useEffect(() => {
         //initialize tables
         db.transaction(tx => {
             tx.executeSql('CREATE TABLE IF NOT EXISTS "races" ( "id" INTEGER NOT NULL UNIQUE, "race" TEXT NOT NULL, "size" TEXT NOT NULL, "speed" INTEGER NOT NULL, "type" TEXT NOT NULL, "strength" INTEGER, "constitution" INTEGER, "dexterity" INTEGER, "intelligence" INTEGER, "wisdom" INTEGER, "charisma" INTEGER, "language1" TEXT, "language2" TEXT, "language3" TEXT, PRIMARY KEY("id" AUTOINCREMENT) )');
             tx.executeSql('CREATE TABLE IF NOT EXISTS "classes" ( "name" TEXT, "primaryAbility" TEXT, "primaryAbility2" TEXT, "savingThrows" TEXT, "hitDice" TEXT )');
-
+            tx.executeSql('CREATE TABLE IF NOT EXISTS "PlayerCharacters" ( "id" INTEGER NOT NULL UNIQUE, "name" TEXT, "race" TEXT, "class" TEXT, "experience" INTEGER, "level" INTEGER, "strength" INTEGER, "dexterity" INTEGER, "constitution" INTEGER, "intelligence" INTEGER, "wisdom" INTEGER, "charisma" INTEGER, "hitPoints" INTEGER, "acrobatics" INTEGER, "animalHandling" INTEGER, "arcana" INTEGER, "athletics" INTEGER, "deception" INTEGER, "history" INTEGER, "insight" INTEGER, "intimidation" INTEGER, "investigation" INTEGER, "medicine" INTEGER, "nature" INTEGER, "perception" INTEGER, "performance" INTEGER, "persuasion" INTEGER, "religion" INTEGER, "sleightOfHand" INTEGER, "stealth" INTEGER, "survival" INTEGER, PRIMARY KEY("id" AUTOINCREMENT) )');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS "spells" ( "SpellName" TEXT NOT NULL, "Level" TEXT NOT NULL, "Class" INTEGER, "Description" TEXT, "Range" TEXT, "AtHigherLevels" TEXT, "Components" TEXT, "CastingTime" TEXT, "Duration" TEXT )');
         });
         //insert data into tables
         db.transaction(tx => {
@@ -81,6 +106,29 @@ export default function initDatabase() {
                 }
             })
         });
+        db.transaction(tx => {
+            tx.executeSql('SELECT COUNT(*) as count FROM PlayerCharacters;', [], (_, result) =>{
+                const rowCount = result.rows.item(0).count;
+                console.log(rowCount);
+            })
+        });
+        db.transaction(tx => {
+            tx.executeSql('SELECT COUNT(*) as count FROM spells;', [], (_, result) =>{
+                const rowCount = result.rows.item(0).count;
+                console.log(rowCount);
+    
+                if(rowCount < sqlSpellStatements){
+                    sqlSpellStatements.forEach(async (sqlStatement) => {
+                        try {
+                            await tx.executeSql(sqlStatement);
+                            console.log("Executed Classes Statement");
+                        } catch (error) {
+                            console.error('Error executing SQL statement:', error);
+                        }
+                    });
+                }
+            })
+        });
         // db.transaction(tx => {
         //     sqlClassStatements.forEach(async (sqlStatement) => {
         //     try {
@@ -92,7 +140,6 @@ export default function initDatabase() {
         //     });
         //     getCategories();
         // });
-        
         // const getCategories = () => {
         //     db.transaction(tx => {
         //         tx.executeSql(
@@ -117,13 +164,13 @@ export default function initDatabase() {
         // }
         // getCategories();
         // db.transaction(tx => {
-        //     tx.executeSql('DELETE FROM races;', [], (_, result) => {
+        //     tx.executeSql('DELETE FROM PlayerCharacters;', [], (_, result) => {
         //         console.log('Rows deleted:', result.rowsAffected);
         //     });
         // });
-        // db.transaction(tx => {
-        //     tx.executeSql('DROP TABLE IF EXISTS races;');
-        //     console.log("races deleted");
+        //     db.transaction(tx => {
+        //         tx.executeSql('DROP TABLE IF EXISTS PlayerCharacters;');
+        //         console.log("PlayerCharacters deleted");
         // });
 
         setIsLoading(false);

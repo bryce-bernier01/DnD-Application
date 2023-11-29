@@ -1,8 +1,39 @@
 import React, {useEffect, useState} from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import characters from '../json/characters.json'
+import characters from '../json/characters.json';
+import * as SQLite from 'expo-sqlite';
 
 const CharacterSheet = ({ characterIndex }) => {
+    const [characterData, setCharacterData] = useState([]);
+
+    useEffect(()=> {
+        const db = SQLite.openDatabase('dndDatabase.db');
+        const getCharacters = () => {
+                db.transaction(tx => {
+                    tx.executeSql(
+                        'SELECT name, race, class, experience, level, strength, dexterity, constitution, intelligence, wisdom, charisma FROM "PlayerCharacters"',
+                        [],
+                        (sqlTx, res) => {
+                        console.log("Characters retrieved successfully");
+                        let len = res.rows.length;
+                        console.log("length is: " + len)
+                        if(len > 0){
+                            let results = [];
+                            for(let i = 0; i < len; i++){
+                                let item = res.rows.item(i);
+                                results.push({name: item.name, race: item.race, class: item.class, experience: item.experience, strength: item.strength, constitution: item.constitution, dexterity: item.dexterity, intelligence: item.intelligence, wisdom: item.wisdom, charisma: item.charisma})
+                                console.log(results.name)
+                            }
+                            setCharacterData(results);
+                        }
+                        },
+                        error=>{console.log('error on getting categories ' + error.message)}
+                )
+            })
+        }
+
+        getCharacters();
+    }, []);
 
     const characterClassIcon = [];
     //for demo purposes only, need better solution for class icons

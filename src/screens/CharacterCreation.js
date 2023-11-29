@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, ScrollView, TextInput, onPress } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, ScrollView, TextInput, Image, onPress } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BasicCard from '../components/BasicCard';
 import * as SQLite from 'expo-sqlite';
@@ -14,6 +14,18 @@ const CharacterCreation = () => {
     const [raceData, setRaceData] = useState([]);
     const [classData, setClassData] = useState([]);
     const [characterName, setCharacterName] = useState('');
+    const [strengthBonus, setStrengthBonus] = useState(0);
+    const [dexterityBonus, setDexterityBonus] = useState(0);
+    const [constitutionBonus, setConstitutionBonus] = useState(0);
+    const [intelligenceBonus, setIntelligenceBonus] = useState(0);
+    const [wisdomBonus, setWisdomBonus] = useState(0);
+    const [charismaBonus, setCharismaBonus] = useState(0);
+    const [characterStrength, setCharacterStrength] = useState();
+    const [characterDexterity, setCharacterDexterity] = useState();
+    const [characterConstitution, setCharacterConstitution] = useState();
+    const [characterIntelligence, setCharacterIntelligence] = useState();
+    const [characterWisdom, setCharacterWisdom] = useState();
+    const [characterCharisma, setCharacterCharisma] = useState();
 
     const showRaceModal = () => {
         setRaceModalVisible(true);
@@ -90,6 +102,7 @@ const CharacterCreation = () => {
         console.log(selectedClass);
         setClassModalVisible(false);
         setModalVisible(false);
+        getClassIcon(selectedClass);
     }
 
     const handleRaceAttributeBonus = (attribute) => {
@@ -113,6 +126,13 @@ const CharacterCreation = () => {
         if(attribute.charisma != 0){
             raceDescriptionString += `Charisma: +${attribute.charisma} `;
         }
+        // setStrengthBonus(attribute.strength);
+        // setConstitutionBonus(attribute.constitution);
+        // setDexterityBonus(attribute.dexterity);
+        // setIntelligenceBonus(attribute.intelligence);
+        // setWisdomBonus(attribute.wisdom);
+        // setCharismaBonus(attribute.charisma);
+
         return raceDescriptionString;
     }
     const renderRaces = [];
@@ -139,7 +159,65 @@ const CharacterCreation = () => {
                 />
             );
         }
+    
+    const generateAttributeScore = () => {
+        return Math.floor(Math.random() * 16) + 3; // Generates a number between 3 and 18 (inclusive)
+    };
 
+    // Example usage
+    // const randomAttributeScore = generateAttributeScore();
+    // console.log(randomAttributeScore);
+
+    const getClassIcon= (className) => {
+        switch (className){
+            case 'Artificer':
+                return <Image source={require('../classIcons/artificerIcon.png')} style={styles.iconImage}/>
+            case 'Barbarian':
+                return <Image source={require('../classIcons/barbarianIcon.png')} style={styles.iconImage}/>
+            case 'Bard':
+                return <Image source={require('../classIcons/bardIcon.png')} style={styles.iconImage}/>
+            case 'Cleric':
+                return <Image source={require('../classIcons/clericIcon.png')} style={styles.iconImage}/>
+            case 'Druid':
+                return <Image source={require('../classIcons/druidIcon.png')} style={styles.iconImage}/>
+            case 'Fighter':
+                return <Image source={require('../classIcons/fighterIcon.png')} style={styles.iconImage}/>
+            case 'Monk':
+                return <Image source={require('../classIcons/monkIcon.png')} style={styles.iconImage}/>
+            case 'Paladin':
+                return <Image source={require('../classIcons/paladinIcon.png')} style={styles.iconImage}/>
+            case 'Ranger':
+                return <Image source={require('../classIcons/rangerIcon.png')} style={styles.iconImage}/>
+            case 'Rogue':
+                return <Image source={require('../classIcons/rogueIcon.png')} style={styles.iconImage}/>
+            case 'Sorcerer':
+                return <Image source={require('../classIcons/sorcererIcon.png')} style={styles.iconImage}/>
+            case 'Warlock':
+                return <Image source={require('../classIcons/warlockIcon.png')} style={styles.iconImage}/>
+            case 'Wizard':
+                return <Image source={require('../classIcons/wizardIcon.png')} style={styles.iconImage}/>
+            default:
+                return <Image source={require('../classIcons/artificerIcon.png')} style={styles.iconImage}/>
+        }
+    }
+
+    const createCharacter = () =>{
+        console.log("Creating character...");
+        const db = SQLite.openDatabase('dndDatabase.db');
+        console.log("Values: " + [characterName, selectedRace, selectedClass, 0, 1, characterStrength, characterDexterity, characterConstitution, characterIntelligence, characterWisdom, characterCharisma])
+        db.transaction(tx => {
+        tx.executeSql(`INSERT INTO PlayerCharacters (name, race, class, experience, level, strength, dexterity, constitution, intelligence, wisdom, charisma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [characterName, selectedRace, selectedClass, 0, 1, characterStrength, characterDexterity, characterConstitution, characterIntelligence, characterWisdom, characterCharisma], (tx, results) => {
+            if (results.rowsAffected > 0) {
+                console.log('Character saved successfully!');
+            } else {
+                console.log('Failed to save character.');
+            }
+        });
+        });
+    }
+    const checkName = () =>{
+        console.log(characterName);
+    }
     const navigation = useNavigation();
 
     React.useLayoutEffect(() => {
@@ -151,8 +229,11 @@ const CharacterCreation = () => {
     return (
         <View style={[styles.container, modalVisible && styles.fullScreen]}>
             {modalVisible && <View style={styles.overlay}></View>}
+            <View style={styles.classIcon}>
+                {getClassIcon(selectedClass)}
+            </View>
             <View style={styles.categoryContainer}>
-                <Text style={styles.categoryHeader}>Name: </Text>
+                <Text style={styles.categoryHeader}>Name:</Text>
                 <TextInput
                     style={styles.nameInput}
                     placeholder="Enter Name"
@@ -161,7 +242,7 @@ const CharacterCreation = () => {
                 />
             </View>
             <View style={styles.categoryContainer}>
-                <Text style={styles.categoryHeader}>Race: </Text>
+                <Text style={styles.categoryHeader}>Race:</Text>
                 <TouchableOpacity onPress={showRaceModal} style={styles.categoryButton}>
                     <Text style={styles.categoryButtonText}>{selectedRace}</Text>
                 </TouchableOpacity>
@@ -184,7 +265,7 @@ const CharacterCreation = () => {
                 </Modal>
             </View>
             <View style={styles.categoryContainer}>
-                <Text style={styles.categoryHeader}>Class: </Text>
+                <Text style={styles.categoryHeader}>Class:</Text>
                 <TouchableOpacity onPress={showClassModal} style={styles.categoryButton}>
                     <Text style={styles.categoryButtonText}>{selectedClass}</Text>
                 </TouchableOpacity>
@@ -206,6 +287,54 @@ const CharacterCreation = () => {
                     </View>
                 </Modal>
             </View>
+            <View style={styles.attributeContainer}>
+                <View style={styles.attributesBoxes}>
+                    <TouchableOpacity onPress={()=> setCharacterStrength(generateAttributeScore)}>
+                        <Text style={styles.attributes}>Strength</Text>
+                        <Text style={[styles.textStyling, styles.textBottom]}>{characterStrength}</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.attributesBoxes}>
+                    <TouchableOpacity onPress={()=> setCharacterDexterity(generateAttributeScore)}>
+                        <Text style={styles.attributes}>Dexterity</Text>
+                        <Text style={[styles.textStyling, styles.textBottom]}>{characterDexterity}</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.attributesBoxes}>
+                    <TouchableOpacity onPress={()=> setCharacterConstitution(generateAttributeScore)}>
+                        <Text style={styles.attributes}>Constitution</Text>
+                        <Text style={[styles.textStyling, styles.textBottom]}>{characterConstitution}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <View style={styles.attributeContainer}>
+                <View style={styles.attributesBoxes}>
+                    <TouchableOpacity onPress={()=> setCharacterIntelligence(generateAttributeScore)}>
+                        <Text style={styles.attributes}>Intelligence</Text>
+                        <Text style={[styles.textStyling, styles.textBottom]}>{characterIntelligence}</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.attributesBoxes}>
+                    <TouchableOpacity onPress={()=> setCharacterWisdom(generateAttributeScore)}>
+                        <Text style={styles.attributes}>Wisdom</Text>
+                        <Text style={[styles.textStyling, styles.textBottom]}>{characterWisdom}</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.attributesBoxes}>
+                    <TouchableOpacity onPress={()=> setCharacterCharisma(generateAttributeScore)}>
+                        <Text style={styles.attributes}>Charisma</Text>
+                        <Text style={[styles.textStyling, styles.textBottom]}>{characterCharisma}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <View>
+                <TouchableOpacity style={styles.modalCloseButton} onPress={createCharacter}>
+                    <Text style={styles.modalCloseText}>Submit!</Text>
+                </TouchableOpacity>
+            </View>
+            {/* <TouchableOpacity onPress={checkName}>
+                <Text>Check name</Text>
+            </TouchableOpacity> */}
         </View>
     );
 };
@@ -229,6 +358,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: '-3%',
         backgroundColor: 'rgba(60, 60, 60, 0.2)',
         zIndex: 98,
+    },
+    classIcon:{
+        alignItems: 'center',
+    },
+    iconImage:{
+        width: 130,
+        height: 130,
     },
     nameInput:{
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
@@ -289,6 +425,29 @@ const styles = StyleSheet.create({
         marginBottom: 'auto',
         marginLeft: 'auto',
         marginRight: 'auto',
-    }
+    },
+    textBottom: {
+        paddingTop: 5,
+        textAlign: 'center',
+        color: '#2C1B47',
+    },
+    attributesBoxes:{
+        marginLeft: 1,
+        marginHorizontal: 4,
+        width: '33%',
+        backgroundColor: '#DBCBE8',
+        borderRadius: 4,
+    },
+    attributes:{
+        fontSize: 10,
+        fontWeight: '800',
+        textAlign: 'center',
+        color: '#2C1B47',
+    },
+    attributeContainer: {
+        paddingTop: 20,
+        paddingBottom: 20,
+        flexDirection: 'row'
+    },
 })
 export default CharacterCreation;
