@@ -1,27 +1,27 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
-const ScreenButton = ({ index, buttonName }) => {
-    const getIcon = (index) => {
-    switch (index) {
-        case 0:
-            return require('../navbarIcons/bardIcon.png');
-        case 1:
-            return require('../navbarIcons/clericIcon.png');
-        case 3:
-            return require('../navbarIcons/WeaponCatalog.png');
-        case 4:
-            return require('../navbarIcons/MonsterCatalog.png')
+const ScreenButton = ({ title, functionPass }) => {
+    const getIcon = (title) => {
+    switch (title) {
+        // case 0:
+        //     return require('../navbarIcons/bardIcon.png');
+        // case 1:
+        //     return require('../navbarIcons/clericIcon.png');
+        // case 3:
+        //     return require('../navbarIcons/WeaponCatalog.png');
+        // case 4:
+        //     return require('../navbarIcons/MonsterCatalog.png')
         default:
             return require('../navbarIcons/wizardIcon.png');
     }
   };
 
   return (
-    <TouchableOpacity style={styles.buttonContainer}>
+    <TouchableOpacity style={styles.buttonContainer} onPress={() => functionPass(title)}>
       <View style={styles.button}>
-        <Image source={getIcon(index)} style={styles.icon} />
-        <Text style={styles.textStyles}>{buttonName}</Text>
+        <Image source={getIcon("")} style={styles.icon} />
+        <Text style={styles.textStyles}>{title}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -29,7 +29,7 @@ const ScreenButton = ({ index, buttonName }) => {
 
 const styles = StyleSheet.create({
     buttonContainer: {
-        height:'20%',
+        height:'10%',
         margin: 15,
     },
     button: {

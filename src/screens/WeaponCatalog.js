@@ -18,8 +18,7 @@ const WeaponCatalog = () => {
         renderButton.push(
             <ScreenButton 
                 key={i}
-                index={3}
-                buttonName={weapons[i].buttonName}
+                title={weapons[i].buttonName}
             />
         );
     }
