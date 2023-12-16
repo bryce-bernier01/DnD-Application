@@ -1,90 +1,46 @@
 import React, {useEffect, useState} from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import characters from '../json/characters.json';
-import * as SQLite from 'expo-sqlite';
 
-const CharacterSheet = ({ characterIndex }) => {
-    const [characterData, setCharacterData] = useState([]);
-
-    useEffect(()=> {
-        const db = SQLite.openDatabase('dndDatabase.db');
-        const getCharacters = () => {
-                db.transaction(tx => {
-                    tx.executeSql(
-                        'SELECT name, race, class, experience, level, strength, dexterity, constitution, intelligence, wisdom, charisma FROM "PlayerCharacters"',
-                        [],
-                        (sqlTx, res) => {
-                        console.log("Characters retrieved successfully");
-                        let len = res.rows.length;
-                        console.log("length is: " + len)
-                        if(len > 0){
-                            let results = [];
-                            for(let i = 0; i < len; i++){
-                                let item = res.rows.item(i);
-                                results.push({name: item.name, race: item.race, class: item.class, experience: item.experience, strength: item.strength, constitution: item.constitution, dexterity: item.dexterity, intelligence: item.intelligence, wisdom: item.wisdom, charisma: item.charisma})
-                                console.log(results.name)
-                            }
-                            setCharacterData(results);
-                        }
-                        },
-                        error=>{console.log('error on getting categories ' + error.message)}
-                )
-            })
-        }
-
-        getCharacters();
-    }, []);
-
-    const characterClassIcon = [];
-    //for demo purposes only, need better solution for class icons
-    if(characters[characterIndex].class === "Bard"){
-        characterClassIcon.push( 
-            <Image key={0} style={[styles.characterInsignia]} source={require('../navbarIcons/bardIcon.png')} />
-        );
-    }else{
-        characterClassIcon.push( 
-            <Image key={0} style={[styles.characterInsignia]} source={require('../navbarIcons/clericIcon.png')} />
-        );
-    }
+const CharacterSheet = ({ characterName, characterRace, characterClass, experience, strength, dexterity, constitution, intelligence, wisdom, charisma }) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerText}>{characters[characterIndex].name}</Text>
+                <Text style={styles.headerText}>{characterName}</Text>
             </View>
             <View style={styles.content}>
                 <View style={styles.iconHolder}>
-                    {characterClassIcon}
+                    <Image style={[styles.characterInsignia]} source={require('../navbarIcons/bardIcon.png')} />
                 </View>
                 <View style={styles.characterTraits}>
-                    <Text style={styles.textStyling}>Race: {characters[characterIndex].race}</Text>
-                    <Text style={styles.textStyling}>Class: {characters[characterIndex].class}</Text>
-                    <Text style={styles.textStyling}>Level: {characters[characterIndex].level}</Text>
+                    <Text style={styles.textStyling}>Race: {characterRace}</Text>
+                    <Text style={styles.textStyling}>Class: {characterClass}</Text>
+                    <Text style={styles.textStyling}>Level: {experience}</Text>
                 </View>
             </View>
             <View style={styles.bottom}>
                 <View style={styles.attributesBoxes}>
                     <Text style={styles.attributes}>Strength</Text>
-                    <Text style={[styles.textStyling, styles.textBottom]}>{characters[characterIndex].stats.strength}</Text>
+                    <Text style={[styles.textStyling, styles.textBottom]}>{strength}</Text>
                 </View>
                 <View style={styles.attributesBoxes}>
                     <Text style={styles.attributes}>Dexterity</Text>
-                    <Text style={[styles.textStyling, styles.textBottom]}>{characters[characterIndex].stats.dexterity}</Text>
+                    <Text style={[styles.textStyling, styles.textBottom]}>{dexterity}</Text>
                 </View>
                 <View style={styles.attributesBoxes}>
                     <Text style={styles.attributes}>Constit.</Text>
-                    <Text style={[styles.textStyling, styles.textBottom]}>{characters[characterIndex].stats.constitution}</Text>
+                    <Text style={[styles.textStyling, styles.textBottom]}>{constitution}</Text>
                 </View>
                 <View style={styles.attributesBoxes}>
                     <Text style={styles.attributes}>Intellig.</Text>
-                    <Text style={[styles.textStyling, styles.textBottom]}>{characters[characterIndex].stats.intelligence}</Text>
+                    <Text style={[styles.textStyling, styles.textBottom]}>{intelligence}</Text>
                 </View>
                 <View style={styles.attributesBoxes}>
                     <Text style={styles.attributes}>Wisdom</Text>
-                    <Text style={[styles.textStyling, styles.textBottom]}>{characters[characterIndex].stats.wisdom}</Text>
+                    <Text style={[styles.textStyling, styles.textBottom]}>{wisdom}</Text>
                 </View>
                 <View style={styles.attributesBoxes}>
                     <Text style={styles.attributes}>Charisma</Text>
-                    <Text style={[styles.textStyling, styles.textBottom]}>{characters[characterIndex].stats.charisma}</Text>
+                    <Text style={[styles.textStyling, styles.textBottom]}>{charisma}</Text>
                 </View>
             </View>
         </View>

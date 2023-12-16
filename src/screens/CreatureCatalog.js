@@ -18,8 +18,7 @@ const CreatureCatalog = () => {
         renderButton.push(
             <ScreenButton 
                 key={i}
-                index={4}
-                buttonName={creatures[i].buttonName}
+                title={creatures[i].buttonName}
             />
         );
     }
