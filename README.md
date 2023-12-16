@@ -14,9 +14,16 @@ Environment Creation:
 10) If on Windows, enter “npm i -g expo-cli” or if on Mac, “sudo npm i -g expo-cli”
 11) Next do “npm install” At this point you should be all setup!
 12) Type “npm start” to get the app running and able to be connected to the Expo app on your phone
+13) Get the QR code provided by VS Code's terminal and scan it with your Expo Go app.
 
 Good Extensions for VS Code: React Native Tools, React-Native/React/Redux snippets, Prettier - Code Formatter 
 Resources for building React Native Apps: https://www.youtube.com/watch?v=0-S5a0eXPoc 
+
+Known Bugs and Issues:
+1) Character Creation will most likely need a restart of the app to display the newly created character.
+2) When using spells catalog, the spells will show the previous clicked classes spells instead of the ones the user just clicked. To look for Cleric spells, click Cleric, hit close, and hit cleric again to see the catalog.
+3) Clicking on some Cards from spells catalog will provide an error.
+4) Clicking on Creatures and Weapons buttons will provide an error.
 
 To Do:
 1) Figma Designs for Navigation Bar and Banner
